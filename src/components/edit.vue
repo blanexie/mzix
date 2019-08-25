@@ -1,29 +1,26 @@
 <template>
-  <div ref="edit"></div>
+  <div ref="edit" class="markdown-body"></div>
 </template>
 <script>
-import { Mark } from "../js/Mark.js";
+import { Mark } from "../assets/js/Mark.js";
 
 export default {
   name: "mxEdit",
   components: {},
   data() {
     return {
-      mark:null,
+      mark: null,
       markData:
-        ' <h1>hhhhhhh</h1><p mark="true" contenteditable="true">11111</p><p mark="true" contenteditable="true">11111</p><p mark="true" contenteditable="true">11111</p> <p mark="true" contenteditable="true">11111</p> '
+        ' <h1>hhhhhhh</h1><p mark="true" contenteditable="true">11111</p><p mark="true" contenteditable="true">11111</p><p mark="true" contenteditable="true">11111</p>' 
+        +'<p  contenteditable="true"></p> '
     };
   },
-  mounted(){
-    this.mark =  new Mark(this.$refs.edit,this.markData)
+  mounted() {
+    this.mark = new Mark(this.$refs.edit, this.markData);
   },
-  methods: {
-   
-  }
+  methods: {}
 };
 </script>
 <style lang="scss"  scoped>
-[contenteditable]:focus {
-  outline: none;
-}
+@import "../assets/css/mark.css";
 </style>
