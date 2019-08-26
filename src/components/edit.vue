@@ -11,7 +11,7 @@ export default {
     return {
       mark: null,
       markData:
-        ' <h1>hhhhhhh</h1><p mark="true" contenteditable="true">11111</p><p mark="true" contenteditable="true">11111</p><p mark="true" contenteditable="true">11111</p>' 
+        ' <h1 contenteditable="true">hhhhhhh</h1><p contenteditable="true">11111</p><p   contenteditable="true">11111</p><p  contenteditable="true">11111</p>' 
         +'<p  contenteditable="true"></p> '
     };
   },
