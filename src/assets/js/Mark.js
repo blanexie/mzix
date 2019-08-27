@@ -1,6 +1,9 @@
 import {
     Enter
 } from './Enter.js'
+import {
+    Delete
+} from './Delete.js';
 
 
 class Mark {
@@ -12,11 +15,20 @@ class Mark {
     constructor(ref, html) {
         this.demoDiv = document.createElement("div")
         this.ref = ref;
+        this.enter = new Enter();
+        this.delete = new Delete()
         this.init(html)
         ref.addEventListener("keyup", event => {
+            let text = event.srcElement.innerText;
+            if (text != '') {
+                event.srcElement.setAttribute("mark", "true")
+            }
             if (event.code == 'Enter') {
-                let enter = new Enter(event.srcElement);
-                let dealAction = enter.dealDom()
+                let dealAction = this.enter.dealDom(event.srcElement)
+                this.deal(dealAction)
+            }
+            if (event.code == 'Backspace') {
+                let dealAction = this.delete.dealDom(event.srcElement)
                 this.deal(dealAction)
             }
         });
@@ -57,6 +69,9 @@ class Mark {
             if (action.deal == 'remove') {
                 this.removeDom(action.srcElement)
             }
+            if (action.deal == 'removeAttr') {
+                this.removeAttr(action.srcElement,action.dom)
+            }
 
 
         });
@@ -76,6 +91,10 @@ class Mark {
         srcElement.replaceWith(dom)
     }
 
+
+    removeAttr(srcElement, dom){
+        srcElement.removeAttribute(dom)
+    }
     /**
      * 在目标后面插入标签
      * @param {DOMElement} srcElement 

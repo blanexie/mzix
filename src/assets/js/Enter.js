@@ -1,15 +1,11 @@
 import {
     markdown
 } from 'markdown';
-import { linkSync } from 'fs';
 
 class Enter {
 
-    constructor(srcElement) {
+    constructor() {
         this.demoDiv = document.createElement("div")
-        this.srcElement = srcElement;
-        this.tagName = srcElement.tagName;
-        this.text = srcElement.innerText;
     }
 
     strToDOM(line) {
@@ -23,7 +19,9 @@ class Enter {
      *  enter键盘的处理方法
      * @param {DOMElement} srcElement 
      */
-    dealDom() {
+    dealDom(srcElement) {
+        this.srcElement=srcElement;
+
         let tagName = this.srcElement.tagName;
         if (tagName == 'P') {
             return this.pDOM(this.srcElement.innerText)
@@ -44,9 +42,9 @@ class Enter {
                 let obj = {};
                 obj.srcElement = this.srcElement;
                 obj.dom = this.strToDOM("<p></p>")
-                obj.deal = 'innsertBefore' //后加空行
+                obj.deal = 'insertBefore' //后加空行
                 doms.push(obj)
-                if(linkSync.length>2){
+                if(lines.length>2){
                     let obj2 = {};
                     obj2.srcElement = this.srcElement;
                     obj2.dom = lines[2]
@@ -63,7 +61,7 @@ class Enter {
                 let obj = {};
                 obj.srcElement = this.srcElement;
                 obj.dom = this.strToDOM("<p></p>")
-                obj.deal = 'innsertBefore' //前加空行
+                obj.deal = 'insertBefore' //前加空行
                 doms.push(obj)
                 
                 let obj2 = {};
