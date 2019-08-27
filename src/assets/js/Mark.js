@@ -53,6 +53,12 @@ class Mark {
             if (action.deal == 'innerHTML') {
                 this.innerHTMLDom(action.srcElement, action.dom)
             }
+
+            if (action.deal == 'remove') {
+                this.removeDom(action.srcElement)
+            }
+
+
         });
     }
 
@@ -76,7 +82,7 @@ class Mark {
      * @param {String} dom 
      */
     addAfter(srcElement, dom) {
-        this.ref.insertBefore(dom, srcElement.nextElement)
+        this.ref.insertBefore(dom, srcElement.nextElementSibling)
     }
 
     innerHTMLDom(srcElement, str) {
@@ -87,8 +93,8 @@ class Mark {
      *  
      * @param {DOMElement} srcElement 
      */
-    removeElement(srcElement) {
-        srcElement.parentElement.remove(srcElement);
+    removeDom(srcElement) {
+        srcElement.remove();
     }
 
 }

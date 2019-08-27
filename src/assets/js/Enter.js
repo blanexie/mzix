@@ -1,6 +1,7 @@
 import {
     markdown
 } from 'markdown';
+import { linkSync } from 'fs';
 
 class Enter {
 
@@ -43,14 +44,34 @@ class Enter {
                 let obj = {};
                 obj.srcElement = this.srcElement;
                 obj.dom = this.strToDOM("<p></p>")
-                obj.deal = 'innsertAfter' //后加空行
+                obj.deal = 'innsertBefore' //后加空行
                 doms.push(obj)
+                if(linkSync.length>2){
+                    let obj2 = {};
+                    obj2.srcElement = this.srcElement;
+                    obj2.dom = lines[2]
+                    obj2.deal = 'innerHTML' //后加空行
+                    doms.push(obj2)
+                }else{
+                    let obj2 = {};
+                    obj2.srcElement = this.srcElement;
+                    obj2.dom = ''
+                    obj2.deal = 'innerHTML' //后加空行
+                    doms.push(obj2)
+                }
             } else { //第二行不是空的
                 let obj = {};
                 obj.srcElement = this.srcElement;
                 obj.dom = this.strToDOM("<p></p>")
                 obj.deal = 'innsertBefore' //前加空行
                 doms.push(obj)
+                
+                let obj2 = {};
+                obj2.srcElement = this.srcElement;
+                obj2.dom = lines[1]
+                obj2.deal = 'innerHTML' //前加空行
+                doms.push(obj2)
+                
             }
         } else { // 第一行不是空的
             if (domStr2 === '') { //第二行是空的
@@ -62,25 +83,27 @@ class Enter {
 
                 let obj2 = {};
                 obj2.srcElement = this.srcElement;
-                obj2.dom = domStr
+                obj2.dom = lines[0]
                 obj2.deal = 'innerHTML'
                 doms.push(obj2)
             } else {
+                let cloneNode = this.srcElement.cloneNode();
+                cloneNode.innerHTML = lines[0];
                 let obj2 = {};
                 obj2.srcElement = this.srcElement;
-                obj2.dom = domStr
-                obj2.deal = 'innerHTML'
+                obj2.dom = cloneNode
+                obj2.deal = 'insertBefore'
                 doms.push(obj2)
+
                 let obj = {};
                 obj.srcElement = this.srcElement;
-                obj.dom = this.strToDOM(domStr2)
-                obj.deal = 'insertAfter'
+                obj.dom = lines[1]
+                obj.deal = 'innerHTML'
                 doms.push(obj)
             }
         }
         return doms
     }
-
 
     pDOM(text) {
         let lines = text.split(/[\n]/);
@@ -92,15 +115,21 @@ class Enter {
                 let obj = {};
                 obj.srcElement = this.srcElement;
                 obj.dom = this.strToDOM("<p></p>")
-                obj.deal = 'insertBefore' //后面加空行
+                obj.deal = 'insertBefore' //
                 doms.push(obj)
-                
-                if(lines.length==3){
-                    let obj2= {};
+
+                if (lines.length == 3) {
+                    let obj2 = {};
                     obj2.srcElement = this.srcElement;
-                    obj2.dom = this.strToDOM(markdown.toHTML(lines[2]))
-                    obj2.deal = 'replace' //后面加空行
+                    obj2.dom = lines[2]
+                    obj2.deal = 'innerHTML'
                     doms.push(obj2)
+                } else {
+                    let obj = {};
+                    obj.srcElement = this.srcElement;
+                    obj.dom = ''
+                    obj.deal = 'innerHTML' //后面加空行
+                    doms.push(obj)
                 }
             } else { //第二行不是空的
                 let obj = {};
@@ -129,17 +158,19 @@ class Enter {
                 obj2.deal = 'innerHTML' //当前行更新
                 doms.push(obj2)
             } else { //第二行非空
+
+                let obj2 = {};
+                obj2.srcElement = this.srcElement;
+                obj2.dom = lines[1]
+                obj2.deal = 'innerHTML' //替换当前行
+                doms.push(obj2)
+
                 let obj = {};
                 obj.srcElement = this.srcElement;
                 obj.dom = this.strToDOM(domStr)
                 obj.deal = 'insertBefore'
                 doms.push(obj)
 
-                let obj2 = {};
-                obj2.srcElement = this.srcElement;
-                obj2.dom = this.strToDOM(domStr2)
-                obj2.deal = 'replace' //替换当前行
-                doms.push(obj2)
             }
         }
         return doms
