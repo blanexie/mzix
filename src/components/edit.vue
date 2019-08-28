@@ -1,5 +1,10 @@
 <template>
-  <div ref="edit" class="markdown-body"></div>
+  <div ref="edit" class="markdown-body" >
+
+
+
+    
+  </div>
 </template>
 <script>
 import { Mark } from "../assets/js/Mark.js";
