@@ -2,10 +2,6 @@ import {
     markdown
 } from 'markdown'
 
-import {
-    nanoid
-} from 'nanoid'
-
 /**
  * 构造方法传入的参数都是 经过行处理的直接可以转换成HTML的
  */
@@ -17,13 +13,13 @@ class Line {
             if (lineDOM == '') {
                 this.dom = '<p>' + lineStr + '</p>'
                 this.attr = {
-                    id: await nanoid(10),
+                    id: this.randomString(),
                     contenteditable: true
                 }
             } else {
                 this.dom = lineDOM
                 this.attr = {
-                    id: await nanoid(10),
+                    id: this.randomString(),
                     contenteditable: true,
                     mark: true
                 }
@@ -41,5 +37,15 @@ class Line {
         }
         return '';
     }
-
+    randomString(len) {
+        len = len || 16;
+        let $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'; /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
+        let maxPos = $chars.length;
+        let pwd = '';
+        for (let i = 0; i < len; i++) {
+            pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+        }
+        return pwd;
+    }
 }
+export default Line;

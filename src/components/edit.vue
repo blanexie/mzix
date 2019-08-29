@@ -1,29 +1,32 @@
 <template>
-  <div ref="edit" class="markdown-body" >
-
-
-
-    
+  <div>
+    <button @click="test">测试</button>
+    <div ref="edit" class="markdown-body" v-for="(line, index) in lines" :key="index">{{line}}</div>
   </div>
 </template>
 <script>
-import { Mark } from "../assets/js/Mark.js";
+import { mapState, mapMutations } from "vuex";
+import Line from "../assets/js/Line.js";
 
 export default {
   name: "mxEdit",
   components: {},
   data() {
-    return {
-      mark: null,
-      markData:
-        ' <h1 mark="true" contenteditable="true">hhhhhhh</h1><p  mark="true" contenteditable="true">11111</p><p  mark="true"  contenteditable="true">11111</p><p  mark="true" contenteditable="true">11111</p>' 
-        +'<p  mark="true" contenteditable="true"></p> '
-    };
+    return {};
   },
-  mounted() {
-    this.mark = new Mark(this.$refs.edit, this.markData);
+  mounted() {},
+  computed: {
+    ...mapState(["lines"]),
+    ...mapMutations(["addLine", "focus"])
   },
-  methods: {}
+  methods: {
+    test() {
+      this.$store.commit('addLine',{ line: new Line("#sadsa") });
+      this.addLine({ line: new Line("111111") });
+      this.addLine({ line: new Line("1. sadsa") });
+      this.addLine({ line: new Line("* sadsa") });
+    }
+  }
 };
 </script>
 <style lang="scss"  scoped>
